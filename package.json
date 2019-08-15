@@ -1,0 +1,19 @@
+{
+  "name": "smartbee",
+  "version": "1.0.0",
+  "description": "Webservice para Restful para o projeto Sm@rtbee",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alisson Lima",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.12.2"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^5.5.0"
+  }
+}
