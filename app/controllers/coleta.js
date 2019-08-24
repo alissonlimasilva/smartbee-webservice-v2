@@ -17,16 +17,17 @@ exports.add = async function(req, res) {
   const body = req.body;
   if (!idColmeiaIsValid(body.id_colmeia)) {
     res
-      .status(401)
-      .json(responseError("Campo id_colmeia não informado", "401"));
+      .status(400)
+      .json(responseError("Campo id_colmeia não informado", "400"));
     return;
   }
   console.log(body.id_colmeia);
   await checkIfColmeiaExist(body.id_colmeia, res);
   if (!body.values) {
     res
-      .status(401)
-      .json(responseError("Não foi informado amostras na coleta.", "401"));
+      .status(400)
+      .json(responseError("Não foi informado amostras na coleta.", "400"));
+    return;
   }
   checkColeta(body, res);
 };
@@ -35,9 +36,16 @@ exports.add = async function(req, res) {
 exports.getColetaByIdColmeia = function(req, res) {
   const idColmeia = req.params.id_colmeia;
 
+  if (isNaN(idColmeia)) {
+    res
+      .status(400)
+      .json(responseError("Id da colmeia não informado ou inválido", "400"));
+    return;
+  }
+
   coleta
     .findAll({
-      where: { id_colmeia: idColmeia },
+      where: { iid_colmeia: idColmeia },
       order: [["createdAt", "ASC"]]
     })
     .then(coletas => res.json(coletas));
@@ -55,7 +63,7 @@ async function checkIfColmeiaExist(id_colmeia, res) {
     return result;
   } catch (error) {
     console.log(JSON.stringify(error));
-    res.status(401).json(responseError("Colmeia informada não existe", "401"));
+    res.status(400).json(responseError("Colmeia informada não existe", "400"));
   }
 }
 
@@ -85,8 +93,8 @@ async function checkColeta(body, res) {
     return;
   }
   res
-    .status(401)
-    .json(responseError("Não foi informado valores da coleta.", "401"));
+    .status(400)
+    .json(responseError("Não foi informado valores da coleta.", "400"));
 }
 
 async function saveColeta(id_colmeia, samples, res) {
