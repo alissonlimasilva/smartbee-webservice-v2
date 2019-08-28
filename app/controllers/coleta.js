@@ -45,7 +45,7 @@ exports.getColetaByIdColmeia = function(req, res) {
 
   coleta
     .findAll({
-      where: { iid_colmeia: idColmeia },
+      where: { id_colmeia: idColmeia },
       order: [["createdAt", "ASC"]]
     })
     .then(coletas => res.json(coletas));
